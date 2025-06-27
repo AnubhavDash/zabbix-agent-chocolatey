@@ -1,0 +1,15 @@
+version: 1.0.{build}-{branch}-{timestamp}
+image: Visual Studio 2019
+
+install:
+  - ps: choco install 7zip -y
+  - git clone https://github.com/majkinetor/au $env:TEMP/au
+  - . "$env:TEMP/au/scripts/Install-AU.ps1"
+
+build_script:
+  - ps: ./update_all.ps1 -ForcedPackages $env:APPVEYOR_REPO_COMMIT_MESSAGE
+
+artifacts:
+  - path: au_temp.zip
+  - path: Update-AUPackages.md
+  - path: update_info.xml
